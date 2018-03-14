@@ -212,7 +212,7 @@ autols(){
   [[ $AUTOLS_DIR != $PWD ]] && ls -lG
   AUTOLS_DIR="${PWD}"
 }
-export PROMPT_COMMAND="autols" 
+export PROMPT_COMMAND="autols"
 
 ###############################
 # その他関数
@@ -290,3 +290,15 @@ fi
 PROMPT2="%_%% "
 SPROMPT="%r is correct? [n,y,a,e]: "
 RPROMPT="%1(v|%F{yellow}%1v%f|)%F{red}%T%f"
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="${HOME}/.sdkman"
+[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
+
+# Nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+# Ruby version 管理 rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
