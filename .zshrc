@@ -25,8 +25,7 @@ source $ZPLUG_HOME/init.zsh
 
 ## zsh plugins
 ### コマンド候補を表示(C+f or C+e or ->)
-### お好みで
-#zplug 'zsh-users/zsh-autosuggestions'
+zplug 'zsh-users/zsh-autosuggestions'
 ### 補完の強化
 zplug 'zsh-users/zsh-completions'
 ### 色をつける
@@ -60,19 +59,19 @@ setopt list_types
 ## 補完キー連打で順に補完候補を自動で補完
 setopt auto_menu
 ## カッコの対応などを自動的に補完
-setopt auto_param_keys
+# setopt auto_param_keys
 ## コマンドラインでも # 以降をコメントと見なす
-setopt interactive_comments
+# setopt interactive_comments
 ## コマンドラインの引数で --prefix=/usr などの = 以降でも補完できる
-setopt magic_equal_subst
+# setopt magic_equal_subst
 ## 語の途中でもカーソル位置で補完
-setopt complete_in_word
+# setopt complete_in_word
 ## カーソル位置は保持したままファイル名一覧を順次その場で表示
 setopt always_last_prompt
 ##日本語ファイル名等8ビットを通す
 setopt print_eight_bit
 ## 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
-setopt extended_glob
+# setopt extended_glob
 ## 明確なドットの指定なしで.から始まるファイルをマッチ
 setopt globdots
 ## 展開する前に補完候補を出させる(Ctrl-iで補完するようにする)
@@ -126,24 +125,20 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 alias l='ls -lFG'
 alias ll='ls -alFG'
 alias rp="cd \$(realpath .)"
-alias o="open"  # for mac
-#alias sed="gsed" # for mac(needs install)
-alias fd="find -type d -name"
-alias ff="find -type f -name"
-alias glog="git log --stat"
-alias gb="git branch -a"
-alias gs="git status"
-alias gdiff="git diff"
-alias gdiffo="git diff --no-ext-diff"
-alias gch="git checkout"
-alias ggr="git lg"
-alias -g V="| nvim -"
-alias -g L="| less -FX"
-alias -g TS="-Dmaven.test.skip=true"
-alias -g EE="eclipse:eclipse"
-alias -g EC="eclipse:clean"
-alias -g UC="-U clean"
-alias -g BR='`git branch | fzf `' # need install fzf
+
+# docker
+alias dps='docker ps'
+alias dim='docker images'
+alias drm='docker rm'
+alias drma='docker rm $(docker ps -aqf "status=exited") 2> /dev/null'
+alias drmi='docker rmi'
+alias drmia='docker rmi $(docker images -aqf "dangling=true") 2> /dev/null'
+alias dc='docker-compose'
+
+# kubernetes
+alias k='kubectl'
+
+
 #### }
 
 #### Prompt customize {
@@ -182,37 +177,37 @@ fi
 ###############################
 
 ## upコマンド
-function up(){ cpath=./; for i in `seq 1 1 $1`; do cpath=$cpath../; done; cd $cpath;}
+# function up(){ cpath=./; for i in `seq 1 1 $1`; do cpath=$cpath../; done; cd $cpath;}
 
 ## dwコマンド（自作）
-function dw(){
-  num=$1
-  root=$(pwd | cut -d / -f -3)
-  if [ $root = $HOME ]; then
-    res=$((num + 3))
-  else
-    res=$((num + 1))
-  fi
-  dir=$(pwd | cut -d / -f -$((res)))/
-  cd $dir
-}
+# function dw(){
+#   num=$1
+#   root=$(pwd | cut -d / -f -3)
+#   if [ $root = $HOME ]; then
+#     res=$((num + 3))
+#   else
+#     res=$((num + 1))
+#   fi
+#   dir=$(pwd | cut -d / -f -$((res)))/
+#   cd $dir
+# }
 
 ## fasd
-if which fasd &> /dev/null; then
-  eval "$(fasd --init posix-alias zsh-hook)"
-fi
+# if which fasd &> /dev/null; then
+#   eval "$(fasd --init posix-alias zsh-hook)"
+# fi
 
 ## ディレクトリ名だけでcd
-setopt autocd
+# setopt autocd
 
 ## ディレクトリが変更されたら ls -lG
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd autols
-autols(){
-  [[ $AUTOLS_DIR != $PWD ]] && ls -lG
-  AUTOLS_DIR="${PWD}"
-}
-export PROMPT_COMMAND="autols"
+# autoload -Uz add-zsh-hook
+# add-zsh-hook precmd autols
+# autols(){
+#   [[ $AUTOLS_DIR != $PWD ]] && ls -lG
+#   AUTOLS_DIR="${PWD}"
+# }
+# export PROMPT_COMMAND="autols"
 
 ###############################
 # その他関数
@@ -231,23 +226,23 @@ snake() {
 # --------------------------------------
 # Google search from terminal
 # --------------------------------------
-ggl(){
-    if [ $(echo $1 | egrep "^-[cfs]$") ]; then
-        local opt="$1"
-        shift
-    fi
-    local url="https://www.google.co.jp/search?q=${*// /+}"
-    local app="/Applications"
-    local g="${app}/Google Chrome.app"
-    local f="${app}/Firefox.app"
-    local s="${app}/Safari.app"
-    case ${opt} in
-        "-g")   open "${url}" -a "$g";;
-        "-f")   open "${url}" -a "$f";;
-        "-s")   open "${url}" -a "$s";;
-        *)      open "${url}";;
-    esac
-}
+# ggl(){
+#     if [ $(echo $1 | egrep "^-[cfs]$") ]; then
+#         local opt="$1"
+#         shift
+#     fi
+#     local url="https://www.google.co.jp/search?q=${*// /+}"
+#     local app="/Applications"
+#     local g="${app}/Google Chrome.app"
+#     local f="${app}/Firefox.app"
+#     local s="${app}/Safari.app"
+#     case ${opt} in
+#         "-g")   open "${url}" -a "$g";;
+#         "-f")   open "${url}" -a "$f";;
+#         "-s")   open "${url}" -a "$s";;
+#         *)      open "${url}";;
+#     esac
+# }
 
 ###############################
 # lessコマンド改善
@@ -276,29 +271,28 @@ fzf-z-search() {
 zle -N fzf-z-search
 bindkey '^b' fzf-z-search
 
+
+# terminal host名をにする
+# shift + option + k で  が出るよ。
 function toon {
   echo -n ""
 }
 
 ### プロンプト設定
 if [ $EMACS ]; then
-	export TERM=xterm-256color
-	PROMPT="%F{green}%~%f %{$fg[red]%}>%{$reset_color%} "
+    export TERM=xterm-256color
+    PROMPT="%F{green}%~%f %{$fg[red]%}>%{$reset_color%} "
 else
-	PROMPT="%F{green}%~%f %{$fg[white]%}$(toon)%{$reset_color%} "
+    PROMPT="%F{green}%~%f %{$fg[white]%}$(toon)%{$reset_color%} "
 fi
 PROMPT2="%_%% "
 SPROMPT="%r is correct? [n,y,a,e]: "
 RPROMPT="%1(v|%F{yellow}%1v%f|)%F{red}%T%f"
 
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="${HOME}/.sdkman"
-[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
+# bash config 読み込み
+source $HOME/.bash_profile
 
-# Nodebrew
-export PATH=$HOME/.nodebrew/current/bin:$PATH
 
-# Ruby version 管理 rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# console実行でのグロブ展開が行われてcurlなどでよくエラーになるのでグロブ展開off
+setopt nonomatch
