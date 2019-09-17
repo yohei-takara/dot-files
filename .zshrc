@@ -173,43 +173,6 @@ fi
 
 
 ###############################
-# 移動改善
-###############################
-
-## upコマンド
-# function up(){ cpath=./; for i in `seq 1 1 $1`; do cpath=$cpath../; done; cd $cpath;}
-
-## dwコマンド（自作）
-# function dw(){
-#   num=$1
-#   root=$(pwd | cut -d / -f -3)
-#   if [ $root = $HOME ]; then
-#     res=$((num + 3))
-#   else
-#     res=$((num + 1))
-#   fi
-#   dir=$(pwd | cut -d / -f -$((res)))/
-#   cd $dir
-# }
-
-## fasd
-# if which fasd &> /dev/null; then
-#   eval "$(fasd --init posix-alias zsh-hook)"
-# fi
-
-## ディレクトリ名だけでcd
-# setopt autocd
-
-## ディレクトリが変更されたら ls -lG
-# autoload -Uz add-zsh-hook
-# add-zsh-hook precmd autols
-# autols(){
-#   [[ $AUTOLS_DIR != $PWD ]] && ls -lG
-#   AUTOLS_DIR="${PWD}"
-# }
-# export PROMPT_COMMAND="autols"
-
-###############################
 # その他関数
 ###############################
 
@@ -223,26 +186,7 @@ snake() {
     perl -pe 's#([A-Z])#_\L$1#g' | perl -pe 's#^_##'
 }
 
-# --------------------------------------
-# Google search from terminal
-# --------------------------------------
-# ggl(){
-#     if [ $(echo $1 | egrep "^-[cfs]$") ]; then
-#         local opt="$1"
-#         shift
-#     fi
-#     local url="https://www.google.co.jp/search?q=${*// /+}"
-#     local app="/Applications"
-#     local g="${app}/Google Chrome.app"
-#     local f="${app}/Firefox.app"
-#     local s="${app}/Safari.app"
-#     case ${opt} in
-#         "-g")   open "${url}" -a "$g";;
-#         "-f")   open "${url}" -a "$f";;
-#         "-s")   open "${url}" -a "$s";;
-#         *)      open "${url}";;
-#     esac
-# }
+
 
 ###############################
 # lessコマンド改善
@@ -271,9 +215,6 @@ fzf-z-search() {
 zle -N fzf-z-search
 bindkey '^b' fzf-z-search
 
-
-# terminal host名をにする
-# shift + option + k で  が出るよ。
 function toon {
   echo -n ""
 }
@@ -289,10 +230,17 @@ PROMPT2="%_%% "
 SPROMPT="%r is correct? [n,y,a,e]: "
 RPROMPT="%1(v|%F{yellow}%1v%f|)%F{red}%T%f"
 
+#export LSCOLORS=exfxcxdxbxegedabagacad
+#export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+
+#zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+
+export CLICOLOR=1
+export LSCOLORS=gxGxcxdxCxegedabagacad
+
 
 # bash config 読み込み
 source $HOME/.bash_profile
 
 
-# console実行でのグロブ展開が行われてcurlなどでよくエラーになるのでグロブ展開off
 setopt nonomatch
